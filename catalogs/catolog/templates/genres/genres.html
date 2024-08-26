@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %} {% block title %}
+<title>All Genres</title>
+{% endblock %} {% block content %}
+<h1>All Genres</h1>
+<p>Here is a list of all genres in the library:</p>
+{% for genre in genres %}
+<h2>{{ genre.name }}</h2>
+<p>Publication year: {{ genre.created_at }}</p>
+<hr />
+{% endfor %} {% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %} {% block title %}
+<title>All languages</title>
+{% endblock %} {% block content %}
+<h1>All languages</h1>
+{% if languages %}
+<p>Here is a list of all languages in the library:</p>
+{% for language in languages %}
+<h2>{{ language.name }}</h2>
+<p>Publication year: {{ language.created_at }}</p>
+<hr />
+{% endfor %} {% else %}
+<p>There are no languages in the library.</p>
+{% endif %} {% endblock %}
