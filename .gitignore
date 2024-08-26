@@ -1,0 +1,16 @@
+# Ambiente virtual
+venv/
+env/
+
+# Arquivos do Django
+*.pyc
+__pycache__/
+*.sqlite3
+
+# Configurações específicas da IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Outros arquivos ignorados
+.env
