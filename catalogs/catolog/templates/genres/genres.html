@@ -2,9 +2,20 @@
 <title>All Genres</title>
 {% endblock %} {% block content %}
 <h1>All Genres</h1>
+<p>
+    <a href = {% url "genre_create" %}>Create a new Genre</a>
+</p>
 <p>Here is a list of all genres in the library:</p>
 {% for genre in genres %}
-<h2>{{ genre.name }}</h2>
-<p>Publication year: {{ genre.created_at }}</p>
+<div>
+    <h2>{{ genre.name }}</h2>
+    <p style = "display:flex;"> 
+        <span>Publication year: {{ genre.created_at }}</span>
+        <span style = "margin-left:auto;">
+            <a href = {% url "genre_update" genre.id %}>Edit</a>
+            <a href = {% url "genre_delete" genre.id %} style = "margin-left:3rem; color: red;">Delete</a>
+        </span>
+    </p>
+</div>
 <hr />
 {% endfor %} {% endblock %}

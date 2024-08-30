@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 import uuid
+from django.utils import timezone
 # Create your models here.
 
 class BaseModel(models.Model):
@@ -51,7 +53,6 @@ class Language(BaseModel):
         return self.name
     
 
-
 class BookInstance(BaseModel):
     LOAN_STATUS = (("d" , "disponivel" , ) , ("m" , "manutenção") , ("r" , "reservado" ) , ("o" , "em empréstimo"))
     id = models.UUIDField(primary_key=True , default= uuid.uuid4() , help_text="Enter with unique code indentifier")
@@ -59,6 +60,20 @@ class BookInstance(BaseModel):
     due_back = models.DateTimeField()
     status  = models.CharField(max_length=1 , choices= LOAN_STATUS , default="m")
     books = models.ForeignKey("Book" , on_delete=models.SET_NULL, null=True )
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    @property
+    def is_overdue(self):
+        # Get the current time as a timezone-aware datetime
+        now = timezone.now()
+
+        # Ensure due_date is also timezone-aware
+        if timezone.is_naive(self.due_back):
+            self.due_back = timezone.make_aware(self.due_back, timezone.get_current_timezone())
+
+        # Compare the two timezone-aware datetime objects
+        return now > self.due_back
+
 
     class Meta :
         verbose_name = 'Book Instance'
@@ -67,7 +82,7 @@ class BookInstance(BaseModel):
 
     def __str__(self):
         return self.status
-    
+
 
 class Book(BaseModel):
     title = models.CharField(max_length=200)

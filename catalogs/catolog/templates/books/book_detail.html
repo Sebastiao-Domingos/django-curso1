@@ -7,6 +7,13 @@
 <p><strong>ISBN:</strong> {{ book.ISBN }}</p>
 <p><strong>Language:</strong> {{ book.language }}</p>
 
+<p>
+
+  <a href = {% url "book_update" book.id %}>Edit</a>
+  <a href = {% url "book_delete" book.id %} style = "color:red; margin-left:6rem">Delete</a>
+
+
+</p>
 <div style="margin-left: 20px; margin-top: 20px">
   {% if book.bookinstance_set.all %}
 
@@ -24,6 +31,7 @@
   {% endif %}
   <p><strong>Imprint:</strong> {{copy.imprint}}</p>
   <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+  <p><strong>Borrower : </strong> {{copy.borrower.username}}</p>
   {% endfor %} {% else %}
   <p>No copies for this book</p>
   {% endif %}

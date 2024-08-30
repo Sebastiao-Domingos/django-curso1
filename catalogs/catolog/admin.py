@@ -19,8 +19,17 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display = ("books", "due_back", "status", "created_at", "updated_at")
+    list_display = ('books', 'status', 'borrower', 'due_back', 'id')
+    list_filter = ('status', 'due_back')
 
+    fieldsets = (
+        (None, {
+            'fields': ('books','imprint', 'id')
+        }),
+        ('Availability', {
+            'fields': ('status', 'due_back','borrower')
+        }),
+    )
 
 
 @admin.register(Book)
@@ -28,9 +37,13 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ("title", "summary", "ISBN", "language")
 
 
+
+
+
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     list_display = ("id", "name" , "created_at", "updated_at")
+    list_filter = ["name"]
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):

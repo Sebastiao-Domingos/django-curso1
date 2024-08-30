@@ -10,4 +10,9 @@
 </ul>
 {% else %}
 <p>There are no books in the library.</p>
-{% endif %} {% endblock %}
+{% endif %} 
+
+  <p>
+    <a href = {% url "book_create" %}>Create new book</a>
+  </p>
+{% endblock %}
