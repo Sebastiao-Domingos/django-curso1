@@ -146,6 +146,26 @@ class LanguageListView(LoginRequiredMixin,generic.ListView):
     #queryset = Language.objects.filter(name__icontains="por")[:5]
     context_object_name = "languages"
     template_name = "languages/languages.html"
+
+
+class LanguageCreateView(LoginRequiredMixin,generic.CreateView):
+    model = Language
+    template_name = "languages/create.html"
+    fields = "__all__"
+
+
+class LanguageUpdateView(LoginRequiredMixin,generic.UpdateView):
+    model = Language
+    template_name = "languages/create.html"
+    fields = "__all__"
+
+
+
+class LanguageDeleteView(LoginRequiredMixin,generic.DeleteView):
+    model = Language
+    success_url = reverse_lazy("languages")
+    template_name = "languages/delete.html"
+
     
 class BookBorrowedListView(LoginRequiredMixin,generic.ListView):
     model = BookInstance
@@ -159,6 +179,23 @@ class GenreListView(LoginRequiredMixin,generic.ListView):
     queryset = Genre.objects.all()
     context_object_name = "genres"
     template_name = "genres/genres.html"
+
+
+
+class GenreCreateView(LoginRequiredMixin,generic.CreateView):
+    model = Genre
+    fields = "__all__"
+    template_name= "genres/create.html"
+
+class GenreUpdateView(LoginRequiredMixin , generic.CreateView):
+    model = Genre
+    fields = "__all__"
+    template_name = "genres/create.html"
+
+class GenreDeleteView(LoginRequiredMixin , generic.DeleteView):
+    model = Genre
+    success_url = reverse_lazy("genres")
+    template_name = "genres/delete.html"
 
 @login_required
 def book_detail_view(request , primary_key):
@@ -178,7 +215,6 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
   
   
-
 @permission_required('catalog.can_mark_returned')
 def renew_book_librarian(request, pk):
     book_instance = get_object_or_404(BookInstance, pk=pk)
